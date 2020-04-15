@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}JokeBot | Joke{% endblock %}
+{% block content %}
+<center>Knock Knock</center>
+<center>Who's there?</center>
+<center>{{ joke.whos_there }}</center>
+<center>{{ joke.whos_there }} who?</center>
+<center>{{ joke.response }}</center>
+
+
+<td><center><a href="{% url 'home' %}">Back to home</a></center></td>
+{% endblock %}
