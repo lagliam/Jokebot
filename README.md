@@ -2,9 +2,9 @@
 Cool little bot that tells knock knock jokes to you. You can tell it some too!
 
 ## Screenshots
-![Homepage](joker/static/img/Jokebot Main page.png)
-![Joke Page](joker/static/img/Joke Screen.png)
-![Submit Page](joker/static/img/Submit Joke Screen.png)
+![Homepage](https://github.com/lagliam/Jokebot/blob/master/joker/static/img/Jokebot%20Main%20page.png)
+![Joke Page](https://github.com/lagliam/Jokebot/blob/master/joker/static/img/Joke%20Screen.png)
+![Submit Page](https://github.com/lagliam/Jokebot/blob/master/joker/static/img/Submit%20Joke%20Screen.png)
 
 ## Components
 
