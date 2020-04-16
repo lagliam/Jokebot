@@ -6,13 +6,6 @@ from random import randint
 
 
 def home(request):
-    if request.method == 'POST':
-        form = JokeForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-        messages.success(request, "Joke added!")
-        return render(request, 'home.html', {})
-
     return render(request, 'home.html', {})
 
 
@@ -24,10 +17,12 @@ def get_joke(request):
     # default type is GET
     joke_count = Jokes.objects.count()
     if joke_count > 1:
+        # Primary keys start at 1
         random_joke_id = randint(1, joke_count)
         joke = Jokes.objects.get(pk=random_joke_id)
         return render(request, 'joke.html', {'joke': joke})
     elif joke_count == 1:
+        # If only one joke in database return that joke
         joke = Jokes.objects.first()
         return render(request, 'joke.html', {'joke': joke})
     else:
@@ -36,3 +31,14 @@ def get_joke(request):
         messages.warning(request, resp)
         return redirect('home')
 
+
+def save_joke(request):
+    if request.method == 'POST':
+        form = JokeForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+        messages.success(request, "Joke added!")
+        return redirect('home')
+
+    else:
+        return render(request, 'save_joke.html', {})

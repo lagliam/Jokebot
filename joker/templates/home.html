@@ -9,23 +9,9 @@
     {{ message }}
     </div>
 {% endfor %}
-<h2>Get a Joke</h2>
 <td><center><a href="{% url 'get_joke' %}">Get a Joke Here</a></center></td>
+<td><center><a href="{% url 'save_joke' %}">Submit a Joke</a></center></td>
 
-<h2>Submit a Joke</h2>
-<form method="post">
-  {% csrf_token %}
-    Knock Knock
-  <div class="form-group">
-    <label for="joke1">Who's there?</label>
-    <input type="text" class="form-control" id="joke1" name="whos_there">
-  </div>
-  <div class="form-group">
-    <label for="response1">Response to 'who's there' who?</label>
-    <input type="text" class="form-control" id="response1" name="response">
-  </div>
-  <button type="submit" class="btn btn-primary">Submit Joke</button>
-</form>
 
 
 {% endblock %}
