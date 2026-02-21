@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import {Joke} from "../models/Joke";
 
-const jokes = ref([]);
-const currentJoke = ref(null);
+const jokes = ref<Joke[]>([]);
+const currentJoke = ref<Joke | null>(null);
 const showPunchline = ref(false);
 const showForm = ref(false);
-const newJoke = ref({ setup: '', punchline: '' });
+const newJoke = ref<Joke>({ setup: '', punchline: '' });
 
 const fetchJokes = async () => {
   const response = await fetch('/api/jokes');
@@ -27,20 +28,20 @@ const submitJoke = async () => {
   if (response.ok) {
     newJoke.value = { setup: '', punchline: '' };
     showForm.value = false;
-    fetchJokes();
+    await fetchJokes();
   }
 };
 
-onMounted(() => {
-  fetchJokes();
-  fetchRandomJoke();
+onMounted(async () => {
+  await fetchJokes();
+  await fetchRandomJoke();
 });
 </script>
 
 <template>
   <div class="joke-teller">
-    <h1>Knock Knock Joke Teller</h1>
-    
+    <h1>Joke Teller</h1>
+
     <div class="joke-display" v-if="currentJoke">
       <p class="setup">{{ currentJoke.setup }}</p>
       <button @click="showPunchline = !showPunchline">

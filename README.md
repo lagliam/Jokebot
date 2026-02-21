@@ -1,6 +1,6 @@
-# Knock-Knock Joke Teller App
+# Joke Teller Bot
 
-This is a simple Knock-Knock Joke Teller application built with Laravel for the backend and Vue 3 for the frontend. The application allows users to retrieve, add, and view jokes stored in an SQLite database.
+This is a simple Joke Teller application built with Laravel for the backend and Vue 3 for the frontend. The application allows users to retrieve, add, and view jokes stored in an SQLite database.
 
 ## Features
 

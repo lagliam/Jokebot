@@ -1,9 +1,8 @@
 {
-    "$schema": "https://getcomposer.org/schema.json",
     "name": "liam/jokebot",
     "type": "project",
-    "description": "A Knock-Knock Joke Teller application built with Laravel and Vue 3.",
-    "keywords": ["laravel", "framework"],
+    "description": "A Joke Teller application built with Laravel and Vue 3.",
+    "keywords": ["Laravel", "framework"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
