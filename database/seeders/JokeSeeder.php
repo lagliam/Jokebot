@@ -13,18 +13,13 @@ class JokeSeeder extends Seeder
     public function run(): void
     {
         Joke::create([
-            'setup' => 'Knock knock',
-            'punchline' => "Who's there?",
+            'setup' => 'Why did the chicken cross the road?',
+            'punchline' => "To get to the other side!",
         ]);
 
         Joke::create([
-            'setup' => 'Interrupting cow',
-            'punchline' => 'MOO!',
-        ]);
-
-        Joke::create([
-            'setup' => 'Lettuce',
-            'punchline' => "Lettuce in, it's cold out here!",
+            'setup' => 'Why don\'t scientists trust atoms?',
+            'punchline' => "Because they make up everything!",
         ]);
     }
 }
