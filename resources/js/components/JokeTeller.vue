@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import {Joke} from "../models/Joke";
+import { onMounted, ref } from 'vue';
+import { Joke } from '../models/Joke';
 
 const jokes = ref<Joke[]>([]);
 const currentJoke = ref<Joke | null>(null);
@@ -42,34 +42,45 @@ onMounted(async () => {
   <div class="joke-teller">
     <h1>Joke Teller</h1>
 
-    <div class="joke-display" v-if="currentJoke">
-      <p class="setup">{{ currentJoke.setup }}</p>
-      <button @click="showPunchline = !showPunchline">
-        {{ showPunchline ? 'Hide' : 'Show' }} Punchline
-      </button>
-      <p class="punchline" v-if="showPunchline">{{ currentJoke.punchline }}</p>
-    </div>
+        <div v-if="currentJoke" class="joke-display">
+            <p class="setup">{{ currentJoke.setup }}</p>
 
-    <div class="controls">
-      <button @click="fetchRandomJoke" class="btn-primary">Get Random Joke</button>
-      <button @click="showForm = !showForm" class="btn-secondary">Add New Joke</button>
-    </div>
+            <button type="button" @click="showPunchline = !showPunchline">
+                {{ showPunchline ? 'Hide' : 'Show' }} Punchline
+            </button>
 
-    <form @submit.prevent="submitJoke" v-if="showForm" class="joke-form">
-      <input v-model="newJoke.setup" placeholder="Setup" required />
-      <input v-model="newJoke.punchline" placeholder="Punchline" required />
-      <button type="submit">Submit Joke</button>
-      <button type="button" @click="showForm = false">Cancel</button>
-    </form>
+            <p v-if="showPunchline" class="punchline">
+                {{ currentJoke.punchline }}
+            </p>
+        </div>
 
-    <div class="joke-list">
-      <h2>All Jokes</h2>
-      <div v-for="joke in jokes" :key="joke.id" class="joke-item">
-        <p>{{ joke.setup }}</p>
-        <p>{{ joke.punchline }}</p>
-      </div>
+        <div class="controls">
+            <button class="btn-primary" type="button" @click="fetchRandomJoke">
+                Get Random Joke
+            </button>
+
+            <button class="btn-secondary" type="button" @click="showForm = !showForm">
+                Add New Joke
+            </button>
+        </div>
+
+        <form v-if="showForm" class="joke-form" @submit.prevent="submitJoke">
+            <input v-model="newJoke.setup" placeholder="Setup" required />
+            <input v-model="newJoke.punchline" placeholder="Punchline" required />
+
+            <button type="submit">Submit Joke</button>
+            <button type="button" @click="showForm = false">Cancel</button>
+        </form>
+
+        <div class="joke-list">
+            <h2>All Jokes</h2>
+
+            <div v-for="joke in jokes" :key="joke.id" class="joke-item">
+                <p>{{ joke.setup }}</p>
+                <p>{{ joke.punchline }}</p>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
