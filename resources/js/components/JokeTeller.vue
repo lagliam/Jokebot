@@ -2,16 +2,10 @@
 import { onMounted, ref } from 'vue';
 import { Joke } from '../models/Joke';
 
-const jokes = ref<Joke[]>([]);
 const currentJoke = ref<Joke | null>(null);
 const showPunchline = ref(false);
 const showForm = ref(false);
 const newJoke = ref<Joke>({ setup: '', punchline: '' });
-
-const fetchJokes = async () => {
-  const response = await fetch('/api/jokes');
-  jokes.value = await response.json();
-};
 
 const fetchRandomJoke = async () => {
   const response = await fetch('/api/jokes/random/joke');
@@ -28,107 +22,150 @@ const submitJoke = async () => {
   if (response.ok) {
     newJoke.value = { setup: '', punchline: '' };
     showForm.value = false;
-    await fetchJokes();
   }
 };
 
 onMounted(async () => {
-  await fetchJokes();
   await fetchRandomJoke();
 });
 </script>
 
 <template>
   <div class="joke-teller">
-    <h1>Joke Teller</h1>
-
-        <div v-if="currentJoke" class="joke-display">
-            <p class="setup">{{ currentJoke.setup }}</p>
-
-            <button type="button" @click="showPunchline = !showPunchline">
-                {{ showPunchline ? 'Hide' : 'Show' }} Punchline
-            </button>
-
-            <p v-if="showPunchline" class="punchline">
-                {{ currentJoke.punchline }}
-            </p>
-        </div>
-
-        <div class="controls">
-            <button class="btn-primary" type="button" @click="fetchRandomJoke">
-                Get Random Joke
-            </button>
-
-            <button class="btn-secondary" type="button" @click="showForm = !showForm">
-                Add New Joke
-            </button>
-        </div>
-
-        <form v-if="showForm" class="joke-form" @submit.prevent="submitJoke">
-            <input v-model="newJoke.setup" placeholder="Setup" required />
-            <input v-model="newJoke.punchline" placeholder="Punchline" required />
-
-            <button type="submit">Submit Joke</button>
-            <button type="button" @click="showForm = false">Cancel</button>
-        </form>
-
-        <div class="joke-list">
-            <h2>All Jokes</h2>
-
-            <div v-for="joke in jokes" :key="joke.id" class="joke-item">
-                <p>{{ joke.setup }}</p>
-                <p>{{ joke.punchline }}</p>
-            </div>
-        </div>
+    <div class="title-card">
+      <h1>Joke Teller</h1>
     </div>
+
+    <div v-if="currentJoke" class="joke-display">
+      <p class="setup">{{ currentJoke.setup }}</p>
+
+      <button type="button" @click="showPunchline = !showPunchline">
+        {{ showPunchline ? 'Hide' : 'Show' }} Punchline
+      </button>
+
+      <p v-if="showPunchline" class="punchline">
+        {{ currentJoke.punchline }}
+      </p>
+    </div>
+
+    <div class="controls">
+      <button class="btn-primary" type="button" @click="fetchRandomJoke">
+        Get Random Joke
+      </button>
+
+      <button class="btn-secondary" type="button" @click="showForm = !showForm">
+        Add New Joke
+      </button>
+    </div>
+
+    <form v-if="showForm" class="joke-form" @submit.prevent="submitJoke">
+      <input v-model="newJoke.setup" placeholder="Setup" required />
+      <input v-model="newJoke.punchline" placeholder="Punchline" required />
+
+      <button type="submit">Submit Joke</button>
+      <button type="button" @click="showForm = false">Cancel</button>
+    </form>
+  </div>
 </template>
 
 <style scoped>
 .joke-teller {
-  max-width: 600px;
+  max-width: 640px;
+  min-height: 100vh;
   margin: 0 auto;
-  padding: 20px;
+  padding: 48px 20px;
+  color: #24323a;
+}
+
+.joke-teller::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  content: '';
+  background: #eef7f2;
+}
+
+.title-card,
+.joke-display,
+.joke-form {
+  border: 1px solid rgba(36, 50, 58, 0.1);
+  box-shadow: 0 18px 45px rgba(58, 89, 74, 0.12);
+}
+
+.title-card {
+  padding: 24px;
+  margin-bottom: 24px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.1;
+  color: #1f3d33;
 }
 
 .joke-display {
-  background: #f5f5f5;
-  padding: 20px;
+  padding: 28px;
+  text-align: center;
+  background: #ffffff;
   border-radius: 8px;
-  margin: 20px 0;
+  margin: 20px 0 18px;
 }
 
 .setup {
+  margin: 0 0 18px;
   font-size: 18px;
   font-weight: bold;
 }
 
 .punchline {
+  margin: 18px 0 0;
   font-size: 16px;
-  color: #2c3e50;
-  margin-top: 10px;
+  color: #335047;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 22px 0;
 }
 
 button {
   padding: 10px 15px;
-  margin: 5px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: 700;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    background 150ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(36, 50, 58, 0.14);
 }
 
 .btn-primary {
-  background: #42b983;
+  background: #2f8f67;
   color: white;
 }
 
 .btn-secondary {
-  background: #666;
+  background: #4f6370;
   color: white;
 }
 
 .joke-form {
-  background: #e8f4f8;
-  padding: 15px;
+  padding: 20px;
+  text-align: center;
+  background: #f7fbff;
   border-radius: 8px;
   margin: 20px 0;
 }
@@ -138,18 +175,7 @@ button {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid #ccc;
+  border: 1px solid #c9d7dc;
   border-radius: 4px;
-}
-
-.joke-list {
-  margin-top: 30px;
-}
-
-.joke-item {
-  background: #fff;
-  padding: 15px;
-  margin: 10px 0;
-  border-left: 4px solid #42b983;
 }
 </style>
